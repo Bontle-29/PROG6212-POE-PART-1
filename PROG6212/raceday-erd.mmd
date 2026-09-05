@@ -1,0 +1,83 @@
+erDiagram
+    USERS ||--o{ EVENTS : organises
+    EVENTS ||--|{ CATEGORIES : contains
+    USERS ||--o{ ENROLMENTS : makes
+    CATEGORIES ||--o{ ENROLMENTS : receives
+    ENROLMENTS ||--o| RESULTS : produces
+    EVENTS ||--o| ROUTES : has
+    EVENTS ||--o{ WEATHER_FORECASTS : receives
+
+    USERS {
+        int UserId PK
+        nvarchar FirstName
+        nvarchar LastName
+        nvarchar Email
+        nvarchar PasswordHash
+        nvarchar Role
+        nvarchar PhoneNumber
+        datetime2 CreatedAt
+    }
+
+    EVENTS {
+        int EventId PK
+        int OrganiserId FK
+        nvarchar Name
+        nvarchar Description
+        nvarchar EventType
+        nvarchar Venue
+        nvarchar City
+        nvarchar Province
+        date EventDate
+        datetime2 RegistrationOpen
+        datetime2 RegistrationClose
+        nvarchar Status
+        datetime2 CreatedAt
+    }
+
+    CATEGORIES {
+        int CategoryId PK
+        int EventId FK
+        nvarchar Name
+        decimal DistanceKm
+        decimal EntryFee
+        int MaximumEntries
+    }
+
+    ENROLMENTS {
+        int EnrolmentId PK
+        int CategoryId FK
+        int ParticipantId FK
+        datetime2 EnrolledAt
+        nvarchar Status
+        nvarchar RaceNumber
+    }
+
+    RESULTS {
+        int ResultId PK
+        int EnrolmentId FK
+        int FinishPosition
+        int FinishTimeSeconds
+        nvarchar ResultStatus
+        datetime2 RecordedAt
+    }
+
+    ROUTES {
+        int RouteId PK
+        int EventId FK
+        nvarchar StartLocation
+        nvarchar FinishLocation
+        decimal DistanceKm
+        nvarchar RouteDescription
+        nvarchar MapUrl
+    }
+
+    WEATHER_FORECASTS {
+        int WeatherForecastId PK
+        int EventId FK
+        date ForecastDate
+        decimal TemperatureC
+        nvarchar Conditions
+        decimal WindSpeedKmh
+        int RainChancePercent
+        datetime2 RetrievedAt
+    }
